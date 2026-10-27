@@ -1,0 +1,61 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fdfaf0; /* Matches background color from instructions */
+    color: #333;
+}
+
+header {
+    background-color: #d97d29; /* Orange header */
+    color: white;
+    padding: 20px;
+    text-align: left;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+main {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fdfaf0;
+}
+
+#filters_screen {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.filter-btn {
+    background-color: #fdfaf0;
+    border: 1px solid #d97d29;
+    color: #d97d29;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.filter-btn.active {
+    background-color: #d97d29;
+    color: white;
+}
+
+.data-source {
+    margin-top: 40px;
+    font-size: 12px;
+    color: #666;
+}
+
+footer {
+    background-color: #4a3b32;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 40px;
+}
