@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T06-1 - Interactive Histogram</title>
-    
-    <!-- Load the CSS files -->
+    <title>TV Energy Consumption</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/visualisations.css">
 </head>
@@ -13,40 +11,38 @@
     <header>
         <h1>TV Energy Consumption</h1>
     </header>
-    
+
     <main>
         <div>
-            <h2>Energy Consumption for different TV screen types and sizes</h2>
-            <p>Most TVs on sale in Australia are LED and they vary considerably in energy consumption.</p>
-            
-            <!-- Container for the filter buttons -->
+            <h1>Energy Consumption for different TV screen types and sizes</h1>
+            <p>TV's vary considerably in energy consumption.</p>
+
+            <!-- div for filter buttons -->
             <div id="filters_screen"></div>
-            
-            <!-- Container for the histogram chart -->
+
+            <!-- div for charts -->
             <div id="histogram" class="responsive-svg-container"></div>
-            
-            <div class="data-source">
+            <div id="scatterplot" class="responsive-svg-container"></div>
+
+            <div class="body">
                 <h3>Data source</h3>
-                <p>Energy Rating Data for household appliances – Televisions<br>Downloaded Jan 2025</p>
+                <p>
+                    <a href="https://data.gov.au/">Energy Rating Data for household appliances – Televisions</a><br>
+                    Downloaded Jan 2025
+                </p>
             </div>
         </div>
     </main>
-    
+
     <footer>
         <p>&copy; 2025 Data Visualisation Week 6</p>
     </footer>
 
-    <!-- Load D3 library first -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    
-    <!-- Load shared constants -->
     <script src="js/shared-constants.js"></script>
-    
-    <!-- Load drawing functions -->
     <script src="js/histogram.js"></script>
+    <script src="js/scatterplot.js"></script>
     <script src="js/interactions.js"></script>
-    
-    <!-- Load data loader LAST (it needs to call the functions above) -->
     <script src="js/load-data.js"></script>
 </body>
 </html>
