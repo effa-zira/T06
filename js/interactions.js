@@ -1,34 +1,29 @@
 const populateFilters = (data) => {
-    // 7.3 Set up buttons and event listeners
     d3.select("#filters_screen")
-        .selectAll(".filter-btn")
+        .selectAll(".filter")
         .data(filters_screen)
         .join("button")
-        .attr("class", d => `filter-btn ${d.isActive ? 'active' : ''}`)
+        .attr("class", d => `filter ${d.isActive ? "active" : ""}`)
         .text(d => d.label)
-        .on("click", (event, d) => {
-            // Update the state of the buttons
-            filters_screen.forEach(filter => {
-                filter.isActive = (filter.id === d.id);
-            });
+        .on("click", (e, d) => {
+            if (!d.isActive) {
+                filters_screen.forEach(filter => {
+                    filter.isActive = d.id === filter.id ? true : false;
+                });
 
-            // Update the button classes (UI)
-            d3.selectAll(".filter-btn")
-                .classed("active", filter => filter.isActive);
+                d3.selectAll("#filters_screen .filter")
+                    .classed("active", filter => filter.id === d.id ? true : false);
 
-            // Call the update function
-            updateHistogram(d.id, data);
+                updateHistogram(d.id, data);
+            }
         });
 };
 
-// 7.4 Update the histogram
 const updateHistogram = (filterId, data) => {
-    // Filter the data
-    const updatedData = filterId === "all" 
-        ? data 
-        : data.filter(d => d.screenTech === filterId);
+    const updatedData = filterId === "all"
+        ? data
+        : data.filter(tv => tv.screenTech === filterId);
 
-    // Update the bins
     const updatedBins = binGenerator(updatedData);
 
     // Update the y-axis scale in case the max frequency changed
@@ -50,4 +45,56 @@ const updateHistogram = (filterId, data) => {
         .ease(d3.easeCubicInOut)
         .attr("y", d => yScale(d.length))
         .attr("height", d => innerHeight - yScale(d.length));
+};
+
+const createTooltip = () => {
+    const tooltip = innerChartS
+        .append("g")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+        .style("pointer-events", "none");
+
+    tooltip
+        .append("rect")
+        .attr("width", tooltipWidth)
+        .attr("height", tooltipHeight)
+        .attr("rx", 3)
+        .attr("ry", 3)
+        .attr("fill", barColor)
+        .attr("fill-opacity", 0.75);
+
+    tooltip
+        .append("text")
+        .text("NA")
+        .attr("x", tooltipWidth / 2)
+        .attr("y", tooltipHeight / 2 + 2)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "middle")
+        .attr("fill", "white")
+        .style("font-weight", 900);
+};
+
+const handleMouseEvents = () => {
+    const tooltip = innerChartS.select(".tooltip");
+
+    innerChartS.selectAll("circle")
+        .on("mouseenter", (e, d) => {
+            tooltip.select("text").text(`${d.screenSize} inches`);
+
+            const cx = +e.target.getAttribute("cx");
+            const cy = +e.target.getAttribute("cy");
+
+            tooltip
+                .interrupt()
+                .attr("transform", `translate(${cx - 0.5 * tooltipWidth}, ${cy - 1.5 * tooltipHeight})`)
+                .transition()
+                .duration(200)
+                .style("opacity", 1);
+        })
+        .on("mouseleave", () => {
+            tooltip
+                .interrupt()
+                .style("opacity", 0)
+                .attr("transform", "translate(0, 500)");
+        });
 };
